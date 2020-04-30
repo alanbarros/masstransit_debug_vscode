@@ -1,0 +1,29 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Docker Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickRemoteProcess}",
+            "preLaunchTask": "Install Vsdbg",
+            "pipeTransport": {
+                "pipeProgram": "docker",
+                "pipeArgs": [
+                    "exec",
+                    "-i",
+                    "publisher" // Nome do container
+                ],
+                "debuggerPath": "/root/debug/vsdbg/vsdbg", // Localização do debugger dentro do container
+                "pipeCwd": "${workspaceRoot}/src/messages-publisher", // Caminho do projeto no vscode
+                "quoteArgs": false
+            },
+            "sourceFileMap": {
+                "/src/messages-publisher": "${workspaceRoot}/src/messages-publisher" // Vinculo do projeto no container e no vscode
+            }            
+        }
+    ]
+}

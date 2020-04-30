@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>messages_listener</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit.RabbitMQ" Version="6.2.6-develop.2618" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\messages-contracts\messages-contracts.csproj" />
+  </ItemGroup>
+
+</Project>

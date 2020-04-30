@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  #RabbitMQ
+  rabbitmq-service:
+    image: rabbitmq
+    build:
+      context: .
+      dockerfile: RabbitMq.Dockerfile
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:15672"]
+      interval: 30s
+      timeout: 10s
+    networks:
+      - messages-network
+
+  messages-publisher:
+    image: msg.publisher
+    container_name: publisher
+    build:
+      context: .
+      dockerfile: messages-publisher/Dockerfile      
+    volumes:
+      - ../:/root/debug
+    ports:
+      - 5100:5000 
+    networks: 
+      - messages-network
+
+  messages-listener:
+    image: msg.listener
+    container_name: listener
+    build: 
+      context: .
+      dockerfile: messages-listener/Dockerfile
+    networks: 
+    - messages-network
+
+networks:
+  messages-network: 

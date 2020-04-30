@@ -1,0 +1,13 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Install Vsdbg",
+            "type": "shell",
+            "command": "if [ ! -e ../vsdbg/ ]; then curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l ./vsdbg; fi",
+            "windows":{
+                "command": "powershell .\\.vscode\\script.ps1"
+            }
+        }
+    ]
+}
