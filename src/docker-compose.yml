@@ -39,5 +39,14 @@ services:
     networks: 
     - messages-network
 
+  messages-listener2:
+    image: msg.listener
+    container_name: listener2
+    build: 
+      context: .
+      dockerfile: messages-listener/Dockerfile
+    networks: 
+    - messages-network
+
 networks:
   messages-network: 

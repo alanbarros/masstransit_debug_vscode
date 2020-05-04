@@ -8,8 +8,12 @@
 
     public class Program
     {
+        private static readonly AutoResetEvent autoResetEvent = new AutoResetEvent(false);
+
         public static async Task Main()
         {
+            Console.WriteLine("Starting listener...");
+
             var busControl = Bus.Factory.CreateUsingRabbitMq(cfg => 
             {                
                 var host = cfg.Host(new Uri("rabbitmq://rabbitmq-service/"), h => { });
@@ -23,19 +27,18 @@
             // Important! The bus must be started before using it!
             await busControl.StartAsync();
 
-            Console.WriteLine("Listening messages. You can publish 'stop listening' if you wants stop this job.");
-
-            while(Environment.GetEnvironmentVariable("EXIT") != "YES")
+            AppDomain.CurrentDomain.ProcessExit += async (o, e) =>
             {
-                Thread.Sleep(5000);
-            }
+                await busControl.StopAsync();
+                Console.WriteLine("Terminating...");
+                autoResetEvent.Set();
+            };
 
-            await busControl.StopAsync();
+            autoResetEvent.WaitOne();
         }
     }
 
-    public class ValueConsumer :
-    IConsumer<ValueEntered>
+    public class ValueConsumer : IConsumer<ValueEntered>
     {
         public async Task Consume(ConsumeContext<ValueEntered> context)
         {
