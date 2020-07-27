@@ -1,4 +1,4 @@
-# Messtransit_RabbitMQ_Docker-Compose_DebugVsCode
+# Masstransit_RabbitMQ_Docker-Compose_DebugVsCode
 Messtransit + RabbitMQ + Docker Compose + Debug on VsCode
 
 ### Run:
@@ -24,8 +24,3 @@ Now, run this command on a terminal with curl available, or use an rest client w
 curl --request POST --url http://localhost:5100/Messages --header 'content-type: application/json' --data '"Hello world!!"'
 
 ````
-
-That's it!
-
-Thank you for access my github.
-I'am learning english yet, so sorry😅
