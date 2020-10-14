@@ -22,7 +22,11 @@ services:
     container_name: publisher
     build:
       context: .
-      dockerfile: messages-publisher/Dockerfile      
+      dockerfile: messages-publisher/Dockerfile
+    environment:
+      RABBIT_HOST: "rabbitmq-service"
+      RABBIT_USERNAME: "guest"
+      RABBIT_PASSWORD: "guest"   
     volumes:
       - ../:/root/debug
     ports:

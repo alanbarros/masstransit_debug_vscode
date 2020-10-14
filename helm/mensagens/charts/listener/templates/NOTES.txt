@@ -1,0 +1,1 @@
+Seu chart com a release {{ .Release.Name }} foi instalado com sucesso.

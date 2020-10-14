@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+  labels:
+    app: msg.publisher
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: msg.publisher
+  template:
+    metadata:
+      labels:
+        app: msg.publisher
+      {{- if .Values.metrics }}
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '80'
+      {{- end }}
+    spec:
+      containers:
+        - name: msg.publisher
+          image: alanbarros/msg.publisher:{{ .Values.version }}
+          ports:
+            - containerPort: 5000

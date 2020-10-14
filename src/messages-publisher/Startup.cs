@@ -24,11 +24,19 @@ namespace messages_publisher
         {
             services.AddControllers();            
             services.AddSwaggerGen();          
-            services.AddHealthChecks();
+            services.AddHealthChecks();            
 
             var bus = Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
-                var host = cfg.Host(new Uri("rabbitmq://rabbitmq-service/"), h => { });
+                var rabbitHost = Environment.GetEnvironmentVariable("RABBIT_HOST");
+                var rabbitUser = Environment.GetEnvironmentVariable("RABBIT_USERNAME");
+                var rabbitPass = Environment.GetEnvironmentVariable("RABBIT_PASSWORD");
+
+                var host = cfg.Host(new Uri($"rabbitmq://{rabbitHost}/"), h => 
+                { 
+                    h.Username(rabbitUser);
+                    h.Password(rabbitPass);
+                });
             });
 
             services.AddSingleton<IPublishEndpoint>(bus);
