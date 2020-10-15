@@ -7,21 +7,13 @@ services:
     build:
       context: .
       dockerfile: messages-publisher/Dockerfile
+      target: final
     networks: 
       - messages-network
 
   messages-listener:
     image: alanbarros/msg.listener
     container_name: listener
-    build: 
-      context: .
-      dockerfile: messages-listener/Dockerfile
-    networks: 
-    - messages-network
-
-  messages-listener2:
-    image: alanbarros/msg.listener
-    container_name: listener2
     build: 
       context: .
       dockerfile: messages-listener/Dockerfile
