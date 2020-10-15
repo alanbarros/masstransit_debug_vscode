@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apb-store-auth-deployment
+  labels:
+    app: apb.store.auth
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: apb.store.auth
+  template:
+    metadata:
+      labels:
+        app: apb.store.auth
+    spec:
+      containers:
+        - name: apb-store-auth
+          image: alanbarros/apb.store.auth:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apb-store-auth-service
+  labels:
+    app: apb.store.auth
+spec:
+  selector:
+    app: apb.store.auth
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      name: http
+  type: LoadBalancer
